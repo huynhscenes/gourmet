@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goutmer_flutter/Localtion.dart';
+import 'package:goutmer_flutter/news.dart';
+import 'package:goutmer_flutter/saleinfor.dart';
 
 void main() => runApp(MyApp());
 TabController tabController;
@@ -213,8 +215,8 @@ class BottomContent extends StatelessWidget {
     controller: tabController,
     children: <Widget>[
     new LocationPage(),
-    new LocationPage(),
-    new LocationPage(),
+    new NewPage(),
+    new saleinfor(),
     ],
     ),
     ),
