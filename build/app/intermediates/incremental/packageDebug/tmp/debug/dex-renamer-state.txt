@@ -1,4 +1,4 @@
-#Wed Feb 27 17:08:27 JST 2019
-base.0=/Users/huynhnguyen/AndroidStudioProjects/goutmer_flutter/build/app/intermediates/transforms/dexMerger/debug/0
+#Fri Mar 01 14:52:39 JST 2019
+base.0=/Users/huynhnguyen/AndroidStudioProjects/gourmetFlu/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
