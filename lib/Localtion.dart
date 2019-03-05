@@ -13,6 +13,11 @@ class LocationState extends State<LocationPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: new BoxDecoration(
+        image: new DecorationImage(
+            image: new ExactAssetImage('assets/contentbg.jpg'),
+            fit: BoxFit.fill),
+      ),
       child: ListView(
         padding: EdgeInsets.only(left: 15.0, top: 20.0),
         children: <Widget>[

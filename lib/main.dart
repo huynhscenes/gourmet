@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goutmer_flutter/Localtion.dart';
+import 'package:goutmer_flutter/guess_you_like.dart';
 import 'package:goutmer_flutter/news.dart';
 import 'package:goutmer_flutter/saleinfor.dart';
 
@@ -214,7 +215,7 @@ class BottomContent extends StatelessWidget {
     child: TabBarView(
     controller: tabController,
     children: <Widget>[
-    new LocationPage(),
+    new GuessYouLikePage(),
     new NewPage(),
     new saleinfor(),
     ],

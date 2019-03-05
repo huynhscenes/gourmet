@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goutmer_flutter/Localtion.dart';
 
 class GuessYouLikePage extends StatefulWidget {
     @override
@@ -13,7 +14,7 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
                 SizedBox(height: 15.0),
                 getFoodItem(
                         'Nhà Hàng Cây Cau',
-                        'assets/nhahang1.jpg',
+                        'assets/nhahang1.jpeg',
                         'Nhà hàng được thành lập 1990. Nhà hàng phục vụ hơn 300 món ăn khác nhau. Toạ lạc ở quận sầm uất nhất Hà Nội',
                         123,
                         23,
@@ -23,14 +24,14 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
                 Padding(
                     padding: EdgeInsets.only(left: 125.0),
                     child: Container(
-                            height: 1.0,
-                            color: Colors.grey
+                            height: 3.0,
+                            color: Color(0xFF950D0D)
                     ),
                 ),
                 SizedBox(height: 15.0),
                 getFoodItem(
                         'Nhà Hàng Cây Cau',
-                        'assets/nhahang1.jpg',
+                        'assets/nhahang1.jpeg',
                         'Nhà hàng được thành lập 1990. Nhà hàng phục vụ hơn 300 món ăn khác nhau. Toạ lạc ở quận sầm uất nhất Hà Nội',
                         123,
                         23,
@@ -40,8 +41,8 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
                 Padding(
                     padding: const EdgeInsets.only(left:100.0),
                     child: Container(
-                        height: 1.0,
-                        color: Colors.grey,
+                        height: 3.0,
+                        color: Color(0xFF950D0D)
                     ),
                 ),
             ],
@@ -56,12 +57,20 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                         Container(
+
                             height: 100.0,
                             width: 100.0,
                             decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50.0),
                                     image: DecorationImage(
                                             image: AssetImage(imgPath), fit: BoxFit.cover)),
+                            child: GestureDetector(
+                               onTap: () {
+                                 Navigator.push(
+                                     context, MaterialPageRoute(builder: (_) {
+                                   return LocationPage();
+                                 }));
+                               }),
                         ),
                         SizedBox(width: 10.0),
                         Column(
@@ -75,7 +84,7 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
                                                 Text(
                                                     dishName,
                                                     style: TextStyle(
-                                                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                                                            fontSize: 20.0, fontWeight: FontWeight.bold,color: Color(0xFF950D0D)),
                                                 ),
                                                 Container(
                                                     padding: EdgeInsets.only(left: 5.0),
@@ -113,50 +122,43 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
                                     ],
                                 ),
                                 SizedBox(height: 10.0),
-                                Text('About dishes',
-                                    style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: Color(0xFFC6CC40)
-                                    ),
-                                ),
-                                SizedBox(height: 5.0),
                                 Container(
                                     width: MediaQuery.of(context).size.width - 130.0,
                                     child: Text(description,
                                         style: TextStyle(
                                                 fontSize: 14.0,
-                                                color: Colors.grey
+                                                color: Colors.black,
                                         ),
                                     ),
                                 ),
                                 SizedBox(height: 10.0),
                                 Row(
                                     children: <Widget>[
-                                        Icon(Icons.fastfood, color: Colors.grey),
+                                        Icon(Icons.fastfood, color: Color(0xFF950D0D)),
                                         Text(
                                             calInfo.toString() +'kcal',
                                             style: TextStyle(
-                                                    color: Colors.grey
+                                                    color: Colors.black,
                                             ),
                                         ),
                                         SizedBox(width: 7.0),
-                                        Icon(Icons.location_on, color: Colors.grey),
+                                        Icon(Icons.location_on, color: Color(0xFF950D0D)),
                                         Text(distance.toString() + 'km',
                                             style: TextStyle(
-                                                color: Colors.grey,
+                                                color: Colors.black,
                                             ),
                                         ),
                                         SizedBox(width: 7.0),
-                                        Icon(Icons.timer, color: Colors.grey),
+                                        Icon(Icons.timer, color: Color(0xFF950D0D)),
                                         Text(cookingTime.toString() + 'mins',
                                             style: TextStyle(
-                                                color: Colors.grey,
+                                                color: Colors.black,
                                             ),
                                         )
                                     ],
                                 )
                             ],
-                        )
+                        ),
                     ],
                 ));
     }
