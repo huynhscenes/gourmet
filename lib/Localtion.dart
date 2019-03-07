@@ -12,32 +12,47 @@ class LocationState extends State<LocationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: new BoxDecoration(
-        image: new DecorationImage(
-            image: new ExactAssetImage('assets/contentbg.jpg'),
-            fit: BoxFit.fill),
-      ),
-      child: ListView(
-        padding: EdgeInsets.only(left: 15.0, top: 20.0),
-        children: <Widget>[
-          Listitems('Bún Bò Huế',context),
-          SizedBox(height: 10.0,),
-          Listitems('Phở Bò',context),
-          SizedBox(height: 10.0,),
-          Listitems('Bún Mắm',context),
-          SizedBox(height: 10.0,),
-          Listitems('Bánh Xèo',context),
-          SizedBox(height: 10.0,),
-          Listitems('Bún Thịt Nướng',context),
-          SizedBox(height: 10.0,),
-          Listitems('Bún Chả',context),
-          SizedBox(height: 10.0,)
-        ],
+    return Scaffold(
+
+      body: Container(
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+              image: new ExactAssetImage('assets/contentbg.jpg'),
+              fit: BoxFit.fill),
+        ),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+//          TopContent(),
+//          CenterContent(),
+              Container(
+                height: MediaQuery.of(context).size.height,
+
+                child: ListView(
+                  children: <Widget>[
+                    Listitems('Bún Bò Huế', context),
+                    SizedBox(height: 10.0,),
+                    Listitems('Phở Bò', context),
+                    SizedBox(height: 10.0,),
+                    Listitems('Bún Mắm', context),
+                    SizedBox(height: 10.0,),
+                    Listitems('Bánh Xèo', context),
+                    SizedBox(height: 10.0,),
+                    Listitems('Bún Thịt Nướng', context),
+                    SizedBox(height: 10.0,),
+                    Listitems('Bún Chả', context),
+                    SizedBox(height: 10.0,)
+
+                  ],
+                ),
+              ),
+            ]
+        ),
       ),
     );
   }
 }
+
 
 Listitems(String namefood, context){
     return Stack(
@@ -50,7 +65,7 @@ Listitems(String namefood, context){
                           topLeft: Radius.circular(20.0),
                           bottomLeft: Radius.circular(20.0)),
                   image: DecorationImage(
-                          image: ExactAssetImage('assets/food1.jpg'),
+                          image: ExactAssetImage('assets/foodnew1.jpg'),
                           fit: BoxFit.cover)),
         ),
         Positioned(
