@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/huynhnguyen/AndroidStudioProjects/gourmetFlu/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/nguyentuanhuynh/gourmet/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
-                    "source": "/Users/huynhnguyen/AndroidStudioProjects/gourmetFlu/android/app/src/main/res/values/styles.xml",
+                    "source": "/Users/nguyentuanhuynh/gourmet/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
