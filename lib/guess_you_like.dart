@@ -35,6 +35,28 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
           padding: const EdgeInsets.only(left: 100.0),
           child: Container(height: 3.0, color: Color(0xFF950D0D)),
         ),
+        getFoodItem(
+            'Nhà Hàng Cây Cau',
+            'assets/nhahang1.jpeg',
+            'Nhà hàng được thành lập 1990. Nhà hàng phục vụ hơn 300 món ăn khác nhau. Toạ lạc ở quận sầm uất nhất Hà Nội',
+            '31 Đường Bạch Đằng, Phường 11, Quận 1, tp. Hồ Chí Minh',
+            4),
+        SizedBox(height: 25.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 100.0),
+          child: Container(height: 3.0, color: Color(0xFF950D0D)),
+        ),
+        getFoodItem(
+            'Nhà Hàng Cây Cau',
+            'assets/nhahang1.jpeg',
+            'Nhà hàng được thành lập 1990. Nhà hàng phục vụ hơn 300 món ăn khác nhau. Toạ lạc ở quận sầm uất nhất Hà Nội',
+            '31 Đường Bạch Đằng, Phường 11, Quận 1, tp. Hồ Chí Minh',
+            4),
+        SizedBox(height: 25.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 100.0),
+          child: Container(height: 3.0, color: Color(0xFF950D0D)),
+        ),
       ],
     );
   }

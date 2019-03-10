@@ -50,6 +50,7 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            Tabbar(),
             TopContent(),
             CenterContent(),
             BottomContent(),
@@ -59,7 +60,40 @@ class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
   }
 }
-
+class Tabbar extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      height: MediaQuery.of(context).size.height -650.0,
+      color: Colors.white,
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topRight,
+            child:Container(
+                height: 40.0,
+                width: 90.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.pinkAccent
+                ),
+                child: FlatButton(
+                  onPressed: null,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.shopping_cart,color: Colors.white,),
+                      SizedBox(width: 5.0,),
+                      Text(' 18 ',style: TextStyle(color: Colors.white),)
+                    ],
+                  ),)
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
 class TopContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -104,24 +138,6 @@ class TopContent extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            Container(
-              alignment: Alignment.bottomRight,
-              height: 40.0,
-              width: 90.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.pinkAccent
-              ),
-              child: FlatButton(
-                      onPressed: null,
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.shopping_cart,color: Colors.white,),
-                          SizedBox(width: 5.0,),
-                          Text(' 18 ',style: TextStyle(color: Colors.white),)
-                        ],
-                      ),)
-            )
           ],
         ),
       ],
@@ -210,8 +226,7 @@ class BottomContent extends StatelessWidget {
           color: Color(0xFFF9F7EB),
         ),
     Container(
-    padding: EdgeInsets.only(top: 20.0),
-    height: MediaQuery.of(context).size.height - 220.0,
+    height: MediaQuery.of(context).size.height - 260.0,
     child: TabBarView(
     controller: tabController,
     children: <Widget>[

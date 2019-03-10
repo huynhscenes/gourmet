@@ -36,40 +36,27 @@ class LocationState extends State<LocationPage> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-//          TopContent(),
-//          CenterContent(),
+              Tabbar(),
               Container(
-                padding: EdgeInsets.all(23.0),
+                padding: EdgeInsets.only(left: 20.0,bottom: 10.0),
                 height: MediaQuery.of(context).size.height -430.0,
-                width: MediaQuery.of(context).size.width,
                 child: Stack(
                   children: <Widget>[
                     ListView(
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
-                        Container(
-                          height: MediaQuery.of(context).size.height -400.0,
-                          width: MediaQuery.of(context).size.width -50.0,
-                          decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  image: DecorationImage(
-                                          image: ExactAssetImage('assets/foodho1.jpg'),
-                                          fit: BoxFit.cover)),
-                        ),
+                        ListAxisItems(context),
+                        SizedBox(width: 10.0,),
+                        ListAxisItems(context),
+                        SizedBox(width: 10.0,),
+                        ListAxisItems(context),
+                        SizedBox(width: 10.0,),
+                        ListAxisItems(context),
+                        SizedBox(width: 10.0,),
+                        ListAxisItems(context),
+
                       ],
                     ),
-                    Positioned(
-                      height: MediaQuery.of(context).size.height -430.0,
-                      width: MediaQuery.of(context).size.width-100.0,
-                      top: 100.0,
-                      left: 25.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.white),
-                      ),
-
-                    )
                   ],
 
                 ),
@@ -88,8 +75,7 @@ class LocationState extends State<LocationPage> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height -340.0,
-
+                height: MediaQuery.of(context).size.height -373.0,
                 child: ListView(
                   children: <Widget>[
                     Listitems('Bún Bò Huế', context),
@@ -104,7 +90,6 @@ class LocationState extends State<LocationPage> {
                     SizedBox(height: 5.0,),
                     Listitems('Bún Chả', context),
                     SizedBox(height: 5.0,)
-
                   ],
                 ),
               ),
@@ -114,9 +99,103 @@ class LocationState extends State<LocationPage> {
     );
   }
 }
+class Tabbar extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      height: MediaQuery.of(context).size.height -650.0,
+      color: Colors.white,
+      child: Stack(
+        children: <Widget>[
+          GestureDetector(
+            child: Container(
+              padding: EdgeInsets.only(left: 10.0),
+              child: Image.asset('assets/icon-arrow-left.jpeg'),
+            ),
+            onTap: (){
+              Navigator.pop(context);
+            },
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child:Container(
+                height: 40.0,
+                width: 90.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.pinkAccent
+                ),
+                child: FlatButton(
+                  onPressed: null,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.shopping_cart,color: Colors.white,),
+                      SizedBox(width: 5.0,),
+                      Text(' 18 ',style: TextStyle(color: Colors.white),)
+                    ],
+                  ),)
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+getRatedStar(int rating, int index) {
+    if (index <= rating) {
+      return Icon(Icons.star, color: Colors.yellow[600],size: 20.0,);
+    } else {
+      return Icon(Icons.star, color: Colors.grey,size: 20.0,);
+    }
+}
+ListAxisItems(context){
+  return Container(
+    height: MediaQuery.of(context).size.height -400.0,
+    width: MediaQuery.of(context).size.width -50.0,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        image: DecorationImage(
+            image: ExactAssetImage('assets/foodho1.jpg'),
+            fit: BoxFit.cover)),
+    child:Container(
+      padding: EdgeInsets.only(left: 40.0,right: 40.0,top: 140.0),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white),
+        child: Column(
+          children: <Widget>[
+            Text('Bún Bò Huế', style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                getRatedStar(1, 1),
+                getRatedStar(1, 1),
+                getRatedStar(1, 1),
+                getRatedStar(1, 1),
+                getRatedStar(1, 1)
 
-ListitemsTop(context){
-
+              ],
+            ),
+            Text('Review (236)', style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold,color: Color(0xFFF76765),fontStyle: FontStyle.italic,decoration: TextDecoration.underline),textAlign: TextAlign.center,),
+            SizedBox(height: 5.0,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Alex : ',style: TextStyle(fontWeight: FontWeight.bold)),
+                Container(
+                    width: MediaQuery.of(context).size.width - 300.0,
+                    child: Text('recommend cho mọi người đó !!',overflow: TextOverflow.ellipsis)
+                ),
+                Text('More',style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFFF76765),decoration: TextDecoration.underline),),
+              ],
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }
 Listitems(String namefood, context){
     return Stack(
