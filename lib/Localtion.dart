@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:goutmer_flutter/fetchJson.dart';
+import 'package:http/http.dart' as http;
 
-class LocationPage extends StatefulWidget {
+class LocationPage extends StatelessWidget {
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return LocationState();
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Postdata>>(
+      future: fetchPhotos(http.Client()),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) print(snapshot.error);
+
+        return snapshot.hasData
+                ? LocationState(postdata: snapshot.data)
+                : Center(child: CircularProgressIndicator());
+      },
+    );
   }
 }
 
-class LocationState extends State<LocationPage> {
+
+class LocationState extends StatelessWidget {
   GoogleMapController mapController;
   final LatLng _center = const LatLng(21.036180,105.848650);
   void _onMapCreated(GoogleMapController controller){

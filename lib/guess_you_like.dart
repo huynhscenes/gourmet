@@ -1,67 +1,49 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:goutmer_flutter/Localtion.dart';
+import 'package:goutmer_flutter/fetchJson.dart';
+import 'package:http/http.dart' as http;
 
-class GuessYouLikePage extends StatefulWidget {
-  @override
-  _GuessYouLikePageState createState() => _GuessYouLikePageState();
+
+class GuessYouLikePage extends StatelessWidget {
+    @override
+    Widget build(BuildContext context) {
+        return FutureBuilder<List<Postdata>>(
+                future: fetchPhotos(http.Client()),
+                builder: (context, snapshot) {
+                    if (snapshot.hasError) print(snapshot.error);
+
+                    return snapshot.hasData
+                            ? _GuessYouLikePageState(postdata: snapshot.data)
+                            : Center(child: CircularProgressIndicator());
+                },
+        );
+    }
 }
 
-class _GuessYouLikePageState extends State<GuessYouLikePage> {
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        SizedBox(height: 15.0),
-        getFoodItem(
-            'Nhà Hàng Cây Cau',
-            'assets/nhahang1.jpeg',
-            'Nhà hàng được thành lập 1990. Nhà hàng phục vụ hơn 300 món ăn khác nhau. Toạ lạc ở quận sầm uất nhất Hà Nội',
-                '31 Đường Bạch Đằng, Phường 11, Quận 1, tp. Hồ Chí Minh',5
-           ),
-        SizedBox(height: 25.0),
-        Padding(
-          padding: EdgeInsets.only(left: 125.0),
-          child: Container(height: 3.0, color: Color(0xFF950D0D)),
-        ),
-        SizedBox(height: 15.0),
-        getFoodItem(
-            'Nhà Hàng Cây Cau',
-            'assets/nhahang1.jpeg',
-            'Nhà hàng được thành lập 1990. Nhà hàng phục vụ hơn 300 món ăn khác nhau. Toạ lạc ở quận sầm uất nhất Hà Nội',
-                '31 Đường Bạch Đằng, Phường 11, Quận 1, tp. Hồ Chí Minh',
-            4),
-        SizedBox(height: 25.0),
-        Padding(
-          padding: const EdgeInsets.only(left: 100.0),
-          child: Container(height: 3.0, color: Color(0xFF950D0D)),
-        ),
-        getFoodItem(
-            'Nhà Hàng Cây Cau',
-            'assets/nhahang1.jpeg',
-            'Nhà hàng được thành lập 1990. Nhà hàng phục vụ hơn 300 món ăn khác nhau. Toạ lạc ở quận sầm uất nhất Hà Nội',
-            '31 Đường Bạch Đằng, Phường 11, Quận 1, tp. Hồ Chí Minh',
-            4),
-        SizedBox(height: 25.0),
-        Padding(
-          padding: const EdgeInsets.only(left: 100.0),
-          child: Container(height: 3.0, color: Color(0xFF950D0D)),
-        ),
-        getFoodItem(
-            'Nhà Hàng Cây Cau',
-            'assets/nhahang1.jpeg',
-            'Nhà hàng được thành lập 1990. Nhà hàng phục vụ hơn 300 món ăn khác nhau. Toạ lạc ở quận sầm uất nhất Hà Nội',
-            '31 Đường Bạch Đằng, Phường 11, Quận 1, tp. Hồ Chí Minh',
-            4),
-        SizedBox(height: 25.0),
-        Padding(
-          padding: const EdgeInsets.only(left: 100.0),
-          child: Container(height: 3.0, color: Color(0xFF950D0D)),
-        ),
-      ],
-    );
+class _GuessYouLikePageState extends StatelessWidget {
+    final List<Postdata> postdata;
+
+  const _GuessYouLikePageState({Key key, this.postdata}) : super(key: key);
+    @override
+    Widget build(BuildContext context) {
+        return ListView.builder(
+            itemCount: postdata.length,
+            itemBuilder: (context, index) {
+                return getFoodItem(
+                        postdata[index].restaurantName,
+                        postdata[index].restaurantPhoto,
+                        postdata[index].contentRes,
+                        postdata[index].location,
+                        postdata[index].voteStar,context
+                );
+            },
+        );
+    }
   }
 
-  getFoodItem(String dishName, String imgPath, String description,String localitem, int rating) {
+  getFoodItem(String dishName, String imgPath, String description,String localitem, int rating,context) {
     return Padding(
         padding: EdgeInsets.only(left: 15.0),
         child: Row(
@@ -170,4 +152,4 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
       return Icon(Icons.star, color: Colors.grey);
     }
   }
-}
+
