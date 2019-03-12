@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Postdata>> fetchPhotos(http.Client client) async {
     final response =
-    await client.get('https://api.myjson.com/bins/nt802');
+    await client.get('https://api.myjson.com/bins/zo9gi');
     String body = utf8.decode(response.bodyBytes);
-    
+
     return compute(parsePhotos, body);
 }
 
@@ -64,15 +63,17 @@ class Property{
     }
 }
 class LocationRes{
-    String latLng;
+    double intLat;
+    double intLng;
     String localTitle;
     String localSnippet;
     LocationRes({
-        this.latLng,this.localTitle,this.localSnippet
+        this.intLat,this.intLng,this.localTitle,this.localSnippet
     });
     factory LocationRes.fromJson(Map<String, dynamic> json) {
         return LocationRes(
-            latLng: json['latLng'],
+            intLat: json['intLat'],
+            intLng: json['intLng'],
             localTitle: json['localTitle'],
             localSnippet: json['localSnippet'],
         );

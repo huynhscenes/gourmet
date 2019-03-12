@@ -71,7 +71,22 @@ class LocationState extends StatelessWidget {
 
                 ),
               ),
-              mapController(),
+              Stack(
+                children: <Widget>[
+                  ListView.builder(
+                    itemCount: postdata.length,
+                    itemBuilder: (context,index){
+                      return mapControllerState(
+                          postdata[index].detailRes.locationRes.intLat,
+                          postdata[index].detailRes.locationRes.intLng,
+                          postdata[index].detailRes.locationRes.localTitle,
+                          postdata[index].detailRes.locationRes.localSnippet
+                          ,context);
+                    },
+                  )
+                ],
+              ),
+
               Container(
                 height: MediaQuery
                     .of(context)
@@ -98,53 +113,42 @@ class LocationState extends StatelessWidget {
   }
 }
 
-class mapController extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return mapControllerState();
-  }
-}
-
-class mapControllerState extends State<mapController> {
+mapControllerState( double intLat, double intLng, String localTitle, String localSnippet,context){
   GoogleMapController mapController;
-  final LatLng _center = const LatLng(21.036180, 105.848650);
-
+  final LatLng _center = LatLng(intLat,intLng);
   void _onMapCreated(GoogleMapController controller) {
-    setState(() {
       mapController = controller;
       var options = MarkerOptions(
-          position: LatLng(21.036180, 105.848650),
+          position: LatLng(intLat,intLng),
           infoWindowText: InfoWindowText(
               "Bún bò Cô Tám ", "Được đánh giá no1 của Hà Thành")
       );
       mapController.addMarker(options);
-    });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
-      height: MediaQuery
-          .of(context)
-          .size
-          .height - 600.0,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width - 50.0,
-      child: GoogleMap(
-        onMapCreated: _onMapCreated,
-        options: GoogleMapOptions(
-          cameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
+  return Stack(
+    children: <Widget>[
+      Container(
+        height: MediaQuery
+            .of(context)
+            .size
+            .height - 600.0,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width - 50.0,
+        child: GoogleMap(
+          onMapCreated: _onMapCreated,
+          options: GoogleMapOptions(
+            cameraPosition: CameraPosition(
+              target: _center,
+              zoom: 11.0,
+            ),
           ),
         ),
-      ),
-    );
-  }
+      )
+    ],
+
+  );
 }
 
 class Tabbar extends StatelessWidget {
