@@ -71,20 +71,13 @@ class LocationState extends StatelessWidget {
 
                 ),
               ),
-              Stack(
-                children: <Widget>[
-                  ListView.builder(
-                    itemCount: postdata.length,
-                    itemBuilder: (context,index){
-                      return mapControllerState(
-                          postdata[index].detailRes.locationRes.intLat,
-                          postdata[index].detailRes.locationRes.intLng,
-                          postdata[index].detailRes.locationRes.localTitle,
-                          postdata[index].detailRes.locationRes.localSnippet
-                          ,context);
-                    },
-                  )
-                ],
+              Container(
+                child: mapControllerState(
+                        postdata[0].detailRes.locationRes.intLat,
+                        postdata[0].detailRes.locationRes.intLng,
+                        postdata[0].detailRes.locationRes.localTitle,
+                        postdata[0].detailRes.locationRes.localSnippet
+                        ,context),
               ),
 
               Container(
@@ -368,7 +361,7 @@ Listitems(String nameDish, String imageDish, String introDish, String priceDish,
                                     Icons.shopping_cart, color: Colors.white,),
                                   SizedBox(width: 2.0,),
                                   Text('  Add',
-                                    style: TextStyle(color: Colors.white),),
+                                    style: TextStyle(color: Colors.white),)
                                 ],
                               ),
                             ),
