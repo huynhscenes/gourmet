@@ -5,43 +5,51 @@ import 'package:goutmer_flutter/Localtion.dart';
 import 'package:goutmer_flutter/fetchJson.dart';
 import 'package:http/http.dart' as http;
 
-
-class GuessYouLikePage extends StatelessWidget {
-    @override
-    Widget build(BuildContext context) {
-        return FutureBuilder<List<Postdata>>(
-                future: fetchPhotos(http.Client()),
-                builder: (context, snapshot) {
-                    if (snapshot.hasError) print(snapshot.error);
-
-                    return snapshot.hasData
-                            ? _GuessYouLikePageState(postdata: snapshot.data)
-                            : Center(child: CircularProgressIndicator());
-                },
-        );
-    }
+class GuessYouLikePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _GuessYouLikePageState();
+  }
 }
 
-class _GuessYouLikePageState extends StatelessWidget {
-    final List<Postdata> postdata;
-
-  const _GuessYouLikePageState({Key key, this.postdata}) : super(key: key);
+class _GuessYouLikePageState extends State<GuessYouLikePage> {
+    Future<List<Postdata>> postdata;
     @override
-    Widget build(BuildContext context) {
-        return ListView.builder(
-            itemCount: postdata.length,
-            itemBuilder: (context, index) {
-                return getFoodItem(
-                        postdata[index].restaurantName,
-                        postdata[index].restaurantPhoto,
-                        postdata[index].contentRes,
-                        postdata[index].location,
-                        postdata[index].voteStar,context
-                );
-            },
-        );
+    void initState() {
+        super.initState();
+        postdata = fetchPhotos();
     }
+
+
+    @override
+  Widget build(BuildContext context) {
+      return FutureBuilder <List<Postdata>>(
+          future: postdata,
+          builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                          return getFoodItem(
+                                  snapshot.data[index].restaurantName,
+                                  snapshot.data[index].restaurantPhoto,
+                                  snapshot.data[index].contentRes,
+                                  snapshot.data[index].location,
+                                  snapshot.data[index].voteStar, context
+                          );
+                      },
+                  );
+              } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner
+              return CircularProgressIndicator();
+          },
+      );
   }
+}
 
   getFoodItem(String dishName, String imgPath, String description,String localitem, int rating,context) {
     return Padding(
@@ -98,6 +106,7 @@ class _GuessYouLikePageState extends StatelessWidget {
                       ],
                     )),
                 Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     getRatedStar(rating, 1),
                     getRatedStar(rating, 2),
@@ -125,6 +134,7 @@ class _GuessYouLikePageState extends StatelessWidget {
                 ),
                 SizedBox(height: 10.0),
                 Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(left: 10.0),

@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:goutmer_flutter/cart_detail.dart';
 import 'package:goutmer_flutter/fetchJson.dart';
-import 'package:http/http.dart' as http;
 
-class LocationPage extends StatelessWidget {
+int numcart =0;
+int idDishpass =0;
+class LocationPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Postdata>>(
-      future: fetchPhotos(http.Client()),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) print(snapshot.error);
-
-        return snapshot.hasData
-            ? LocationState(postdata: snapshot.data)
-            : Center(child: CircularProgressIndicator());
-      },
-    );
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return LocationState();
   }
 }
 
 
-class LocationState extends StatelessWidget {
-  final List<Postdata> postdata;
+class LocationState extends State<LocationPage> {
+  Future<List<Postdata>> postdata;
+  @override
+  void initState() {
+    super.initState();
+    postdata = fetchPhotos();
+  }
+   void setnumcart(){
+      setState(() {
+          numcart +=1;
+          idDishpass;
+      });
+  }
 
-  const LocationState({Key key, this.postdata}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,72 +39,87 @@ class LocationState extends StatelessWidget {
               image: new ExactAssetImage('assets/contentbg.jpg'),
               fit: BoxFit.fill),
         ),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Tabbar(),
-              Container(
-                padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height - 430.0,
-                child: Stack(
-                  children: <Widget>[
-                    ListView.builder(
-                      itemCount: postdata.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return ListAxisItems(
-                            postdata[index].detailRes.detailDishes[index]
-                                .imageDish,
-                            postdata[index].detailRes.detailDishes[index]
-                                .nameDish,
-                            postdata[index].detailRes.topReviewDish.starReview,
-                            postdata[index].detailRes.topReviewDish.ReviewNum,
-                            postdata[index].detailRes.topReviewDish.newReview
-                                .nameRe,
-                            postdata[index].detailRes.topReviewDish.newReview
-                                .contentRe
-                            ,
-                            context);
-                      },
-                    ),
+        child:FutureBuilder <List<Postdata>>(
+            future: postdata,
+            builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                    return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                Tabbar(context,snapshot.data),
+                                Container(
+                                    padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+                                    height: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height - 430.0,
+                                    child: Stack(
+                                        children: <Widget>[
+                                            ListView.builder(
+                                                itemCount: snapshot.data.length,
+                                                scrollDirection: Axis.horizontal,
+                                                itemBuilder: (context, index) {
+                                                    return ListAxisItems(
+                                                            snapshot.data[index].detailRes.detailDishes[index]
+                                                                    .imageDish,
+                                                            snapshot.data[index].detailRes.detailDishes[index]
+                                                                    .nameDish,
+                                                            snapshot.data[index].detailRes.topReviewDish.starReview,
+                                                            snapshot.data[index].detailRes.topReviewDish.ReviewNum,
+                                                            snapshot.data[index].detailRes.topReviewDish.newReview
+                                                                    .nameRe,
+                                                            snapshot.data[index].detailRes.topReviewDish.newReview
+                                                                    .contentRe
+                                                            ,
+                                                            context);
+                                                },
+                                            ),
 
-                  ],
+                                        ],
 
-                ),
-              ),
-              Container(
-                child: mapControllerState(
-                        postdata[0].detailRes.locationRes.intLat,
-                        postdata[0].detailRes.locationRes.intLng,
-                        postdata[0].detailRes.locationRes.localTitle,
-                        postdata[0].detailRes.locationRes.localSnippet
-                        ,context),
-              ),
+                                    ),
+                                ),
+                                Container(
+                                    child: mapControllerState(
+                                            snapshot.data[0].detailRes.locationRes.intLat,
+                                            snapshot.data[0].detailRes.locationRes.intLng,
+                                            snapshot.data[0].detailRes.locationRes.localTitle,
+                                            snapshot.data[0].detailRes.locationRes.localSnippet
+                                            ,context),
+                                ),
 
-              Container(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height - 373.0,
-                child:
-                ListView.builder(
-                  itemCount: postdata.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    return Listitems(
-                        postdata[index].detailRes.detailDishes[index].nameDish,
-                        postdata[index].detailRes.detailDishes[index].imageDish,
-                        postdata[index].detailRes.detailDishes[index].introDish,
-                        postdata[index].detailRes.detailDishes[index].priceDish
-                        , context);
-                  },
-                ),
-              ),
-            ]
-        ),
+                                Container(
+                                    height: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height - 373.0,
+                                    child:
+                                    ListView.builder(
+                                        itemCount: snapshot.data.length,
+                                        scrollDirection: Axis.vertical,
+                                        itemBuilder: (context, index) {
+                                            return Listitems(
+                                                    snapshot.data[index].detailRes.detailDishes[index].idDish,
+                                                    snapshot.data[index].detailRes.detailDishes[index].nameDish,
+                                                    snapshot.data[index].detailRes.detailDishes[index].imageDish,
+                                                    snapshot.data[index].detailRes.detailDishes[index].introDish,
+                                                    snapshot.data[index].detailRes.detailDishes[index].priceDish
+                                                    , context,setnumcart);
+                                        },
+                                    ),
+                                ),
+                            ]
+                    );
+                } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                }
+
+                // By default, show a loading spinner
+                return CircularProgressIndicator();
+            },
+        )
+
+
       ),
     );
   }
@@ -144,51 +163,52 @@ mapControllerState( double intLat, double intLng, String localTitle, String loca
   );
 }
 
-class Tabbar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
-      height: MediaQuery
-          .of(context)
-          .size
-          .height - 650.0,
-      color: Colors.white,
-      child: Stack(
-        children: <Widget>[
-          GestureDetector(
-            child: Container(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Image.asset('assets/icon-arrow-left.jpeg'),
+Tabbar(context, senddata){
+        return Container(
+            height: MediaQuery
+                    .of(context)
+                    .size
+                    .height - 650.0,
+            color: Colors.white,
+            child: Stack(
+                children: <Widget>[
+                    GestureDetector(
+                        child: Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: Image.asset('assets/icon-arrow-left.jpeg'),
+                        ),
+                        onTap: () {
+                            Navigator.pop(context);
+                        },
+                    ),
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                                height: 40.0,
+                                width: 90.0,
+                                decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        color: Colors.pinkAccent
+                                ),
+                                child: FlatButton(
+                                    onPressed: (){
+                                        Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                        builder: (__) => new CartDetail(value : senddata,numcartshop: numcart,)));
+                                    },
+                                    child: Row(
+                                        children: <Widget>[
+                                            Icon(Icons.shopping_cart, color: Colors.white,),
+                                            SizedBox(width: 5.0,),
+                                            Text(numcart.toString(), style: TextStyle(color: Colors.white),)
+                                        ],
+                                    ),)
+                        ),
+                    )
+                ],
             ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-                height: 40.0,
-                width: 90.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.pinkAccent
-                ),
-                child: FlatButton(
-                  onPressed: null,
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.shopping_cart, color: Colors.white,),
-                      SizedBox(width: 5.0,),
-                      Text(' 18 ', style: TextStyle(color: Colors.white),)
-                    ],
-                  ),)
-            ),
-          )
-        ],
-      ),
-    );
-  }
+        );
 }
 
 getRatedStar(int rating, int index) {
@@ -273,8 +293,9 @@ ListAxisItems(String imageDish, String nameDish, int starReview, int ReviewNum,
   );
 }
 
-Listitems(String nameDish, String imageDish, String introDish, String priceDish,
-    context) {
+Listitems(int idDish,String nameDish, String imageDish, String introDish, String priceDish,
+    context,setnumcart) {
+    print('this is iddish passsssss : ' + idDishpass.toString());
   return Column(
     children: <Widget>[
       Container(
@@ -354,7 +375,7 @@ Listitems(String nameDish, String imageDish, String introDish, String priceDish,
                             width: 100.0,
                             height: 40.0,
                             child: FlatButton(
-                              onPressed: null,
+                              onPressed: setnumcart,
                               child: Row(
                                 children: <Widget>[
                                   Icon(
@@ -380,21 +401,6 @@ Listitems(String nameDish, String imageDish, String introDish, String priceDish,
                           ),
                         ],
                       ),
-//                      Row(
-//                        children: <Widget>[
-//                          Container(
-//                            padding: EdgeInsets.only(left: 10.0),
-//                            child: Icon(Icons.add_location),
-//                          ),
-//                          Container(
-//                            width: MediaQuery
-//                                    .of(context)
-//                                    .size
-//                                    .width-270.0,
-//                            child: Text('31 Đường Bạch Đằng, Phường 11, Quận 1, tp. Hồ Chí Minh',overflow: TextOverflow.ellipsis,),
-//                          )
-//                        ],
-//                      )
                     ],
                   ),
                 )),

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<Postdata>> fetchPhotos(http.Client client) async {
+Future<List<Postdata>> fetchPhotos() async {
     final response =
-    await client.get('https://api.myjson.com/bins/zo9gi');
+    await http.get('https://api.myjson.com/bins/tgkde');
     String body = utf8.decode(response.bodyBytes);
 
     return compute(parsePhotos, body);
@@ -19,7 +19,7 @@ List<Postdata> parsePhotos(String responseBody) {
 }
 
 class Postdata {
-    final String id;
+    final int id;
     final String restaurantPhoto;
     final String restaurantName;
     final int voteStar;
@@ -31,7 +31,7 @@ class Postdata {
 
     factory Postdata.fromJson(Map<String, dynamic> json) {
         return Postdata(
-            id: json['id'] as String,
+            id: json['id'] as int,
             restaurantPhoto: json['restaurantPhoto'] as String,
             restaurantName: json['restaurantName'] as String,
             voteStar: json['voteStar'] as int,
@@ -112,13 +112,15 @@ class NewReview{
 }
 
 class Detail{
+    int idDish;
     String imageDish;
     String nameDish;
     String introDish;
     String priceDish;
-    Detail({this.imageDish,this.nameDish,this.introDish,this.priceDish});
+    Detail({this.idDish,this.imageDish,this.nameDish,this.introDish,this.priceDish});
     factory Detail.fromJson(Map<String, dynamic> json) {
         return Detail(
+            idDish: json['idDish'] as int,
             imageDish: json['imageDish'] as String,
             nameDish: json['nameDish'] as String,
             introDish: json['introDish'] as String,
