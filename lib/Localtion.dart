@@ -21,10 +21,10 @@ class LocationState extends State<LocationPage> {
     super.initState();
     postdata = fetchPhotos();
   }
-   void setnumcart(){
+   void setnumcart(idDish){
       setState(() {
           numcart +=1;
-          idDishpass;
+          idDishpass = idDish;
       });
   }
 
@@ -159,7 +159,6 @@ mapControllerState( double intLat, double intLng, String localTitle, String loca
         ),
       )
     ],
-
   );
 }
 
@@ -195,7 +194,7 @@ Tabbar(context, senddata){
                                         Navigator.push(
                                                 context,
                                                 new MaterialPageRoute(
-                                                        builder: (__) => new CartDetail(value : senddata,numcartshop: numcart,)));
+                                                        builder: (__) => new CartDetail(numcartshop: numcart,sendidDish:idDishpass)));
                                     },
                                     child: Row(
                                         children: <Widget>[
@@ -295,7 +294,6 @@ ListAxisItems(String imageDish, String nameDish, int starReview, int ReviewNum,
 
 Listitems(int idDish,String nameDish, String imageDish, String introDish, String priceDish,
     context,setnumcart) {
-    print('this is iddish passsssss : ' + idDishpass.toString());
   return Column(
     children: <Widget>[
       Container(
@@ -375,7 +373,9 @@ Listitems(int idDish,String nameDish, String imageDish, String introDish, String
                             width: 100.0,
                             height: 40.0,
                             child: FlatButton(
-                              onPressed: setnumcart,
+                              onPressed: (){
+                                setnumcart(idDish);
+                              },
                               child: Row(
                                 children: <Widget>[
                                   Icon(
@@ -396,7 +396,6 @@ Listitems(int idDish,String nameDish, String imageDish, String introDish, String
                             child: FlatButton(
                               onPressed: null,
                               child: Icon(Icons.add, color: Colors.white),
-
                             ),
                           ),
                         ],

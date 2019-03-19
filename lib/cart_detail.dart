@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:goutmer_flutter/fetchJson.dart';
 
 class CartDetail extends StatefulWidget {
-    var value;
     int numcartshop;
-    CartDetail({Key key, this.value, this.numcartshop}) : super(key: key);
+    int sendidDish;
+    CartDetail({Key key, this.numcartshop, this.sendidDish}) : super(key: key);
 
   @override
   _CartDetailState createState() => _CartDetailState();
@@ -20,39 +20,39 @@ class _CartDetailState extends State<CartDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
             body: Container(
             decoration: new BoxDecoration(
             image: new DecorationImage(
             image: new ExactAssetImage('assets/contentbg.jpg'),
       fit: BoxFit.fill),
       ),
-                child: Column(
-                    children: <Widget>[
-                        Tabbar(context),
-                FutureBuilder <List<Postdata>>(
+                child: FutureBuilder <List<Postdata>>(
                     future: postdata,
                     builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                            return ListView.builder(
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (context, index) {
-
-                                },
-                            );
-                        } else if (snapshot.hasError) {
-                            return Text("${snapshot.error}");
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Tabbar(context),
+                             Container(
+                               child: cartItems(
+                                             snapshot.data[widget.sendidDish-1].detailRes.detailDishes[widget.sendidDish-1].idDish,
+                                             snapshot.data[widget.sendidDish-1].detailRes.detailDishes[widget.sendidDish-1].nameDish,
+                                             snapshot.data[widget.sendidDish-1].detailRes.detailDishes[widget.sendidDish-1].imageDish,
+                                             snapshot.data[widget.sendidDish-1].detailRes.detailDishes[widget.sendidDish-1].introDish,
+                                             widget.numcartshop,
+                                             100000,
+                                             context),
+                             )
+                            ],
+                          );
+                        }else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
                         }
-
                         // By default, show a loading spinner
                         return CircularProgressIndicator();
                     },
                 )
-
-
-                    ],
-                ),
-
       )
     );
 
