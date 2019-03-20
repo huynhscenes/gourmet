@@ -4,7 +4,9 @@ import 'package:goutmer_flutter/fetchJson.dart';
 class CartDetail extends StatefulWidget {
     int numcartshop;
     int sendidDish;
-    CartDetail({Key key, this.numcartshop, this.sendidDish}) : super(key: key);
+    int numcart1;
+    int numcart2;
+    CartDetail({Key key, this.numcartshop, this.sendidDish, this.numcart1,this.numcart2}) : super(key: key);
 
   @override
   _CartDetailState createState() => _CartDetailState();
@@ -40,7 +42,7 @@ class _CartDetailState extends State<CartDetail> {
                                              snapshot.data[widget.sendidDish-1].detailRes.detailDishes[widget.sendidDish-1].nameDish,
                                              snapshot.data[widget.sendidDish-1].detailRes.detailDishes[widget.sendidDish-1].imageDish,
                                              snapshot.data[widget.sendidDish-1].detailRes.detailDishes[widget.sendidDish-1].introDish,
-                                             widget.numcartshop,
+                                             widget.numcart1,
                                              100000,
                                              context),
                              )

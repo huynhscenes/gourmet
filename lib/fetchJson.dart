@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 Future<List<Postdata>> fetchPhotos() async {
     final response =
-    await http.get('https://api.myjson.com/bins/tgkde');
+    await http.get('https://api.myjson.com/bins/9rtpm');
     String body = utf8.decode(response.bodyBytes);
 
     return compute(parsePhotos, body);
@@ -117,14 +117,16 @@ class Detail{
     String nameDish;
     String introDish;
     String priceDish;
-    Detail({this.idDish,this.imageDish,this.nameDish,this.introDish,this.priceDish});
+    int amount;
+    Detail({this.idDish,this.imageDish,this.nameDish,this.introDish,this.priceDish,this.amount});
     factory Detail.fromJson(Map<String, dynamic> json) {
         return Detail(
             idDish: json['idDish'] as int,
             imageDish: json['imageDish'] as String,
             nameDish: json['nameDish'] as String,
             introDish: json['introDish'] as String,
-            priceDish: json['priceDish'] as String
+            priceDish: json['priceDish'] as String,
+            amount : json['amount'] as int,
         );
     }
 }

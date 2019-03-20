@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:goutmer_flutter/cart_detail.dart';
 import 'package:goutmer_flutter/fetchJson.dart';
-
 int numcart =0;
+int numcart1 =0;
+int numcart2 =0;
 int idDishpass =0;
+List listiddish = new List();
 class LocationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -12,7 +14,12 @@ class LocationPage extends StatefulWidget {
     return LocationState();
   }
 }
+class Cartlist {
+    final int idDishcart;
+    final int amountcart;
 
+     Cartlist({this.idDishcart, this.amountcart});
+}
 
 class LocationState extends State<LocationPage> {
   Future<List<Postdata>> postdata;
@@ -21,10 +28,63 @@ class LocationState extends State<LocationPage> {
     super.initState();
     postdata = fetchPhotos();
   }
-   void setnumcart(idDish){
+   void setnumcart(idDish,amount){
       setState(() {
-          numcart +=1;
           idDishpass = idDish;
+          listiddish.add(idDish);
+          var kCartlist;
+//          for(var i= 1; i<listiddish.length;i++){
+//              print('this is i : ' + i.toString());
+//              print('this is listid.length : ' + listiddish.length.toString());
+//              if(idDishpass ==1){
+//                  int numcart1 =0;
+//                  numcart1+=1;
+//                  kCartlist = <Cartlist>[
+//                      Cartlist(
+//                              idDishcart: idDishpass,
+//                              amountcart:numcart1
+//                      )
+//                  ];
+//                  print(kCartlist[0].idDishcart);
+//                  print(kCartlist[0].amountcart);
+//              }
+//              if(idDishpass ==2){
+//                  int numcart1 =0;
+//                  numcart1+=1;
+//                  kCartlist = <Cartlist>[
+//                      Cartlist(
+//                              idDishcart: idDishpass,
+//                              amountcart:numcart1
+//                      )
+//                  ];
+//                  print(kCartlist[0].idDishcart);
+//                  print(kCartlist[0].amountcart);
+//              }
+//              break;
+//
+//          }
+          if(idDishpass == 1){
+              kCartlist = <Cartlist>[
+                  Cartlist(
+                          idDishcart: idDishpass,
+                          amountcart:numcart1 +=1
+                  )
+              ];
+              print(kCartlist[0].idDishcart);
+              print(kCartlist[0].amountcart);
+              print('this is id ' + idDish.toString());
+          }
+          if(idDishpass == 2){
+              kCartlist = <Cartlist>[
+                  Cartlist(
+                          idDishcart: idDishpass,
+                          amountcart:numcart2 +=1
+                  )
+              ];
+              print(kCartlist[0].idDishcart);
+              print(kCartlist[0].amountcart);
+              print('this is id ' + idDish.toString());
+          }
       });
   }
 
@@ -103,7 +163,8 @@ class LocationState extends State<LocationPage> {
                                                     snapshot.data[index].detailRes.detailDishes[index].nameDish,
                                                     snapshot.data[index].detailRes.detailDishes[index].imageDish,
                                                     snapshot.data[index].detailRes.detailDishes[index].introDish,
-                                                    snapshot.data[index].detailRes.detailDishes[index].priceDish
+                                                    snapshot.data[index].detailRes.detailDishes[index].priceDish,
+                                                    snapshot.data[index].detailRes.detailDishes[index].amount
                                                     , context,setnumcart);
                                         },
                                     ),
@@ -194,7 +255,7 @@ Tabbar(context, senddata){
                                         Navigator.push(
                                                 context,
                                                 new MaterialPageRoute(
-                                                        builder: (__) => new CartDetail(numcartshop: numcart,sendidDish:idDishpass)));
+                                                        builder: (__) => new CartDetail(numcartshop: numcart,numcart1: numcart1,numcart2:numcart2,sendidDish:idDishpass)));
                                     },
                                     child: Row(
                                         children: <Widget>[
@@ -292,7 +353,7 @@ ListAxisItems(String imageDish, String nameDish, int starReview, int ReviewNum,
   );
 }
 
-Listitems(int idDish,String nameDish, String imageDish, String introDish, String priceDish,
+Listitems(int idDish,String nameDish, String imageDish, String introDish, String priceDish, int amount,
     context,setnumcart) {
   return Column(
     children: <Widget>[
@@ -374,7 +435,7 @@ Listitems(int idDish,String nameDish, String imageDish, String introDish, String
                             height: 40.0,
                             child: FlatButton(
                               onPressed: (){
-                                setnumcart(idDish);
+                                setnumcart(idDish,amount);
                               },
                               child: Row(
                                 children: <Widget>[
