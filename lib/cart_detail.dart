@@ -14,11 +14,7 @@ class CartDetail extends StatefulWidget {
 
 class _CartDetailState extends State<CartDetail> {
     Future<List<Postdata>> postdata;
-    @override
-    void initState() {
-        super.initState();
-        postdata = fetchPhotos();
-    }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

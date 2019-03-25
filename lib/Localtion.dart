@@ -23,11 +23,7 @@ class Cartlist {
 
 class LocationState extends State<LocationPage> {
   Future<List<Postdata>> postdata;
-  @override
-  void initState() {
-    super.initState();
-    postdata = fetchPhotos();
-  }
+
    void setnumcart(idDish,amount){
       setState(() {
           idDishpass = idDish;
