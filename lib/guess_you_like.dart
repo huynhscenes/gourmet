@@ -16,108 +16,115 @@ class GuessYouLikePage extends StatefulWidget {
 
 class _GuessYouLikePageState extends State<GuessYouLikePage> {
 
-     Widget getFoodItem(Postdata d) {
+     Widget getFoodItem(List<getpostdata> data) {
         return Padding(
                 padding: EdgeInsets.only(left: 15.0),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                        Container(
-                            height: 100.0,
-                            width: 100.0,
-                            decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                    image: DecorationImage(
-                                            image: AssetImage(d.restaurantPhoto), fit: BoxFit.cover)),
-                            child: GestureDetector(onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                    return LocationPage();
-                                }));
-                            }),
-                        ),
-                        SizedBox(width: 10.0),
-                        Column(
+                child: ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index){
+                        return Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                                 Container(
-                                        width: MediaQuery.of(context).size.width - 125.0,
-                                        child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    height: 100.0,
+                                    width: 100.0,
+                                    decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(50.0),
+                                            image: DecorationImage(
+                                                    image: AssetImage(data[index].restaurantPhoto), fit: BoxFit.cover)),
+                                    child: GestureDetector(onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (_) {
+
+                                            return LocationPage(data[index].id);
+                                        }));
+                                    }),
+                                ),
+                                SizedBox(width: 10.0),
+                                Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                        Container(
+                                                width: MediaQuery.of(context).size.width - 125.0,
+                                                child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: <Widget>[
+                                                        Text(
+                                                            data[index].restaurantName,
+                                                            style: TextStyle(
+                                                                    fontSize: 20.0,
+                                                                    fontWeight: FontWeight.bold,
+                                                                    color: Color(0xFF950D0D)),
+                                                        ),
+                                                        Container(
+                                                            padding: EdgeInsets.only(left: 5.0),
+                                                            height: 40.0,
+                                                            width: 50.0,
+                                                            decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(20.0),
+                                                                        bottomLeft: Radius.circular(20.0)),
+                                                                color: Color(0xFFF76765),
+                                                            ),
+                                                            child: Center(
+                                                                child: Icon(
+                                                                    Icons.favorite_border,
+                                                                    color: Colors.white,
+                                                                ),
+                                                            ),
+                                                        )
+                                                    ],
+                                                )),
+                                        Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: <Widget>[
+                                                getRatedStar(data[index].voteStar, 1),
+                                                getRatedStar(data[index].voteStar, 2),
+                                                getRatedStar(data[index].voteStar, 3),
+                                                getRatedStar(data[index].voteStar, 4),
+                                                getRatedStar(data[index].voteStar, 5),
+                                                SizedBox(width: 7.0),
                                                 Text(
-                                                    d.restaurantName,
-                                                    style: TextStyle(
-                                                            fontSize: 20.0,
-                                                            fontWeight: FontWeight.bold,
-                                                            color: Color(0xFF950D0D)),
+                                                    data[index].voteStar.toString(),
+                                                    style:
+                                                    TextStyle(color: Colors.yellow[800], fontSize: 17.0),
+                                                )
+                                            ],
+                                        ),
+                                        SizedBox(height: 10.0),
+                                        Container(
+                                            width: MediaQuery.of(context).size.width - 130.0,
+                                            child: Text(
+                                                data[index].contentRes,
+                                                style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.black,
+                                                ),
+                                            ),
+                                        ),
+                                        SizedBox(height: 10.0),
+                                        Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                                Container(
+                                                    padding: EdgeInsets.only(left: 10.0),
+                                                    child: Icon(Icons.add_location,color: Color(0xFF950D0D),),
                                                 ),
                                                 Container(
-                                                    padding: EdgeInsets.only(left: 5.0),
-                                                    height: 40.0,
-                                                    width: 50.0,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.only(
-                                                                topLeft: Radius.circular(20.0),
-                                                                bottomLeft: Radius.circular(20.0)),
-                                                        color: Color(0xFFF76765),
-                                                    ),
-                                                    child: Center(
-                                                        child: Icon(
-                                                            Icons.favorite_border,
-                                                            color: Colors.white,
-                                                        ),
+                                                    width: MediaQuery.of(context).size.width - 200.0,
+                                                    child: Text(
+                                                        data[index].location,
+                                                        overflow: TextOverflow.ellipsis,
                                                     ),
                                                 )
                                             ],
-                                        )),
-                                Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                        getRatedStar(d.voteStar, 1),
-                                        getRatedStar(d.voteStar, 2),
-                                        getRatedStar(d.voteStar, 3),
-                                        getRatedStar(d.voteStar, 4),
-                                        getRatedStar(d.voteStar, 5),
-                                        SizedBox(width: 7.0),
-                                        Text(
-                                            d.voteStar.toString(),
-                                            style:
-                                            TextStyle(color: Colors.yellow[800], fontSize: 17.0),
                                         )
                                     ],
                                 ),
-                                SizedBox(height: 10.0),
-                                Container(
-                                    width: MediaQuery.of(context).size.width - 130.0,
-                                    child: Text(
-                                        d.contentRes,
-                                        style: TextStyle(
-                                            fontSize: 14.0,
-                                            color: Colors.black,
-                                        ),
-                                    ),
-                                ),
-                                SizedBox(height: 10.0),
-                                Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                        Container(
-                                            padding: EdgeInsets.only(left: 10.0),
-                                            child: Icon(Icons.add_location,color: Color(0xFF950D0D),),
-                                        ),
-                                        Container(
-                                            width: MediaQuery.of(context).size.width - 200.0,
-                                            child: Text(
-                                                d.location,
-                                                overflow: TextOverflow.ellipsis,
-                                            ),
-                                        )
-                                    ],
-                                )
                             ],
-                        ),
-                    ],
-                ));
+                        );
+                    },
+                )
+                );
     }
 
      getRatedStar(int rating, int index) {
@@ -134,11 +141,7 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
            model: AppModel(),
            child:  ScopedModelDescendant<AppModel>(
                    builder: (context,child,model){
-                       return ListView(
-                               shrinkWrap: true,
-                               children: model.itemListing.map((d)=>getFoodItem(d)).toList(),
-
-                       );
+                       return getFoodItem(model.itemListing);
                    },
                ),
        );
