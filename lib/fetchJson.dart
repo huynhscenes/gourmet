@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter/material.dart';
 
 
 //var data =[
@@ -171,20 +172,7 @@ import 'package:scoped_model/scoped_model.dart';
 //        }
 //    }
 //];
-Future<List<Postdata>> fetchPhotos() async {
-    final response =
-    await http.get('https://api.myjson.com/bins/9rtpm');
-    String body = utf8.decode(response.bodyBytes);
-
-    return compute(parsePhotos, body);
-}
-
-
-List<Postdata> parsePhotos(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-
-    return parsed.map<Postdata>((json) => Postdata.fromJson(json)).toList();
-}
+var getdata;
 
 class Postdata {
     int id;
@@ -328,9 +316,9 @@ class getdetail{
 
 }
 class AppModel extends Model {
+    var data;
     List<getpostdata> _data=[];
     List<getdetail> _datadetail=[];
-    List<Postdata> data;
     List<LocationRes> datalocal;
     List<TopReviewDish> datareview;
     List<NewReview> datanewre;
@@ -341,11 +329,25 @@ class AppModel extends Model {
     Directory tempDir;
     String tempPath;
     final LocalStorage storage = new LocalStorage('app_data');
-
-    AppModel() {
-        // Create DB Instance & Create Table
+    Future<List<Postdata>> fetchPhotos() async {
+        final response =
+        await http.get('https://api.myjson.com/bins/9rtpm');
+        String body = utf8.decode(response.bodyBytes);
+        getdata =body;
         createDB();
+//        return compute(parsePhotos, body);
     }
+
+    List<Postdata> parsePhotos(getdata) {
+        final parsed = json.decode(getdata).cast<Map<String, dynamic>>();
+
+        return parsed.map<Postdata>((json) => Postdata.fromJson(json)).toList();
+    }
+    AppModel() {
+        Future<List<Postdata>> list =  fetchPhotos();
+        // Create DB Instance & Create Table
+    }
+
 //
 //    deleteDB() async {
 //        String tempPath = tempDir.path + "/cart.db";
@@ -357,17 +359,17 @@ class AppModel extends Model {
 //    }
 
     createDB() async {
-        var dbDir = await getDatabasesPath();
-        var dbPath = join(dbDir, "app1.db");
-
-
-
-        _db = await openDatabase(dbPath, version: 1, onCreate: createTable);
-        if(_db !=null){
-            this.FetchShopping();
-            this.FetchDetail();
+        if( await getdata!=null){
+            var dbDir = await getDatabasesPath();
+            var dbPath = join(dbDir, "dbtest15.db");
+            data = parsePhotos(getdata.toString());
+            _db = await openDatabase(dbPath, version: 1, onCreate: createTable);
+            if(_db !=null){
+                this.FetchShopping();
+                this.FetchDetail();
+            }
+            return _db;
         }
-        return _db;
     }
 
     createTable(Database database, int version) async {
@@ -499,8 +501,8 @@ class AppModel extends Model {
                 d.priceDish = data[i].detailRes.detailDishes[i].priceDish;
                 try{
                     var qry = 'INSERT INTO detail(id,intLat, intLng, localTitle,localSnippet,nameDish,starReview,ReviewNum,nameRe,contentRe,imageDish,nameDishDe,introDish,priceDish)'
-                            'VALUES(${d.id},"${d.intLat}","${d.intLng}", ${d.localTitle},"${d.localSnippet}","${d.nameDish}"'
-                            ',"${d.ReviewNum}","${d.nameRe}","${d.contentRe}","${d.imageDish}","${d.nameDishDe}","${d.introDish}"'
+                            'VALUES(${d.id},"${d.intLat}","${d.intLng}", "${d.localTitle}","${d.localSnippet}","${d.nameDish}"'
+                            ',"${d.starReview}","${d.ReviewNum}","${d.nameRe}","${d.contentRe}","${d.imageDish}","${d.nameDishDe}","${d.introDish}"'
                             ',"${d.priceDish}");';
                     var _res = await tx.execute(qry);
                 }catch(e){

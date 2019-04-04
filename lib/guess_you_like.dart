@@ -35,7 +35,7 @@ class _GuessYouLikePageState extends State<GuessYouLikePage> {
                                     child: GestureDetector(onTap: () {
                                         Navigator.push(context, MaterialPageRoute(builder: (_) {
 
-                                            return LocationPage(data[index].id);
+                                            return LocationPage();
                                         }));
                                     }),
                                 ),
