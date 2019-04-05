@@ -23,65 +23,11 @@ class Cartlist {
 }
 
 class LocationState extends State<LocationPage> {
-    Future<List<Postdata>> postdata;
 
     void setnumcart(idDish,amount){
         setState(() {
             idDishpass = idDish;
             listiddish.add(idDish);
-            var kCartlist;
-//          for(var i= 1; i<listiddish.length;i++){
-//              print('this is i : ' + i.toString());
-//              print('this is listid.length : ' + listiddish.length.toString());
-//              if(idDishpass ==1){
-//                  int numcart1 =0;
-//                  numcart1+=1;
-//                  kCartlist = <Cartlist>[
-//                      Cartlist(
-//                              idDishcart: idDishpass,
-//                              amountcart:numcart1
-//                      )
-//                  ];
-//                  print(kCartlist[0].idDishcart);
-//                  print(kCartlist[0].amountcart);
-//              }
-//              if(idDishpass ==2){
-//                  int numcart1 =0;
-//                  numcart1+=1;
-//                  kCartlist = <Cartlist>[
-//                      Cartlist(
-//                              idDishcart: idDishpass,
-//                              amountcart:numcart1
-//                      )
-//                  ];
-//                  print(kCartlist[0].idDishcart);
-//                  print(kCartlist[0].amountcart);
-//              }
-//              break;
-//
-//          }
-            if(idDishpass == 1){
-                kCartlist = <Cartlist>[
-                    Cartlist(
-                            idDishcart: idDishpass,
-                            amountcart:numcart1 +=1
-                    )
-                ];
-                print(kCartlist[0].idDishcart);
-                print(kCartlist[0].amountcart);
-                print('this is id ' + idDish.toString());
-            }
-            if(idDishpass == 2){
-                kCartlist = <Cartlist>[
-                    Cartlist(
-                            idDishcart: idDishpass,
-                            amountcart:numcart2 +=1
-                    )
-                ];
-                print(kCartlist[0].idDishcart);
-                print(kCartlist[0].amountcart);
-                print('this is id ' + idDish.toString());
-            }
         });
     }
 
@@ -101,7 +47,7 @@ class LocationState extends State<LocationPage> {
                             children: <Widget>[
                                 Tabbar(context,''),
                                 Container(
-                                        padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+                                        padding: EdgeInsets.only(left: 20.0),
                                         height: MediaQuery
                                                 .of(context)
                                                 .size
@@ -130,7 +76,7 @@ class LocationState extends State<LocationPage> {
                                         height: MediaQuery
                                                 .of(context)
                                                 .size
-                                                .height - 373.0,
+                                                .height -  385.0,
                                         child:ScopedModel<AppModel>(
                                             model: AppModel(),
                                             child:  ScopedModelDescendant<AppModel>(
@@ -151,44 +97,50 @@ class LocationState extends State<LocationPage> {
 }
 
 
-mapControllerState( List<getdetail> data,context){
-    print('this is test heloooooooooo ' + data[0].intLat.toString());
-                GoogleMapController mapController;
-                final LatLng _center = LatLng(data[1].intLat,data[1].intLng);
-                void _onMapCreated(GoogleMapController controller) {
-                    mapController = controller;
-                    var options = MarkerOptions(
-                            position: LatLng(data[1].intLat,data[1].intLng),
-                            infoWindowText: InfoWindowText(
-                                    "Bún bò Cô Tám ", "Được đánh giá no1 của Hà Thành")
-                    );
-                    mapController.addMarker(options);
-                }
-                return Stack(
-                    children: <Widget>[
-                        new Container(
-                            height: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height - 600.0,
-                            width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width - 50.0,
-                            child: GoogleMap(
-                                onMapCreated: _onMapCreated,
-                                options: GoogleMapOptions(
-                                    cameraPosition: CameraPosition(
-                                        target: _center,
-                                        zoom: 11.0,
+mapControllerState( List<getdetail> datamap,context){
+    return ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(0),
+            itemCount: datamap.length,
+            itemBuilder: (BuildContext context, int index){
+                if(index ==0){
+                    GoogleMapController mapController;
+                    final LatLng _center = LatLng(datamap[index].intLat,datamap[index].intLng);
+                    void _onMapCreated(GoogleMapController controller) {
+                        mapController = controller;
+                        var options = MarkerOptions(
+                                position: LatLng(datamap[index].intLat,datamap[index].intLng),
+                                infoWindowText: InfoWindowText(
+                                        "Bún bò Cô Tám ", "Được đánh giá no1 của Hà Thành")
+                        );
+                        mapController.addMarker(options);
+                    }
+                    return Stack(
+                        children: <Widget>[
+                            new Container(
+                                padding: EdgeInsets.only(left: 40.0),
+                                height: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height - 600.0,
+                                width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width - 50.0,
+                                child: GoogleMap(
+                                    onMapCreated: _onMapCreated,
+                                    options: GoogleMapOptions(
+                                        cameraPosition: CameraPosition(
+                                            target: _center,
+                                            zoom: 11.0,
+                                        ),
                                     ),
                                 ),
-                            ),
-                        )
-                    ],
-                );
-
-//            });
+                            )
+                        ],
+                    );
+                }
+            });
 }
 
 Tabbar(context, senddata){
@@ -247,9 +199,11 @@ getRatedStar(int rating, int index) {
     }
 }
 
-ListAxisItems(List<getdetail> data) {
+ListAxisItems(List<getdetail> dataitemtop) {
     return ListView.builder(
-            itemCount: data.length,
+            padding: EdgeInsets.all(0),
+            scrollDirection: Axis.horizontal,
+            itemCount: dataitemtop.length,
             itemBuilder: (BuildContext context, int index){
                 return Row(
                     children: <Widget>[
@@ -257,7 +211,7 @@ ListAxisItems(List<getdetail> data) {
                             height: MediaQuery
                                     .of(context)
                                     .size
-                                    .height - 400.0,
+                                    .height - 450.0,
                             width: MediaQuery
                                     .of(context)
                                     .size
@@ -265,7 +219,7 @@ ListAxisItems(List<getdetail> data) {
                             decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10.0),
                                     image: DecorationImage(
-                                            image: ExactAssetImage(data[index].imageDish),
+                                            image: ExactAssetImage(dataitemtop[index].imageRev),
                                             fit: BoxFit.cover)),
                             child: Container(
                                 padding: EdgeInsets.only(left: 40.0, right: 40.0, top: 140.0),
@@ -275,21 +229,21 @@ ListAxisItems(List<getdetail> data) {
                                             color: Colors.white),
                                     child: Column(
                                         children: <Widget>[
-                                            Text(data[index].nameDish, style: TextStyle(
+                                            Text(dataitemtop[index].nameDish, style: TextStyle(
                                                 fontSize: 20.0, fontWeight: FontWeight.bold,),
                                                 textAlign: TextAlign.center,),
                                             Row(
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                    getRatedStar(data[index].starReview, 1),
-                                                    getRatedStar(data[index].starReview, 1),
-                                                    getRatedStar(data[index].starReview, 1),
-                                                    getRatedStar(data[index].starReview, 1),
-                                                    getRatedStar(data[index].starReview, 1)
+                                                    getRatedStar(dataitemtop[index].starReview, 1),
+                                                    getRatedStar(dataitemtop[index].starReview, 1),
+                                                    getRatedStar(dataitemtop[index].starReview, 1),
+                                                    getRatedStar(dataitemtop[index].starReview, 1),
+                                                    getRatedStar(dataitemtop[index].starReview, 1)
 
                                                 ],
                                             ),
-                                            Text('Review (' + data[index].ReviewNum.toString() + ')', style: TextStyle(
+                                            Text('Review (' + dataitemtop[index].ReviewNum.toString() + ')', style: TextStyle(
                                                     fontSize: 15.0,
                                                     fontWeight: FontWeight.bold,
                                                     color: Color(0xFFF76765),
@@ -300,13 +254,13 @@ ListAxisItems(List<getdetail> data) {
                                             Row(
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                    Text(data[index].nameRe, style: TextStyle(fontWeight: FontWeight.bold)),
+                                                    Text(dataitemtop[index].nameRe +' : ', style: TextStyle(fontWeight: FontWeight.bold)),
                                                     Container(
                                                             width: MediaQuery
                                                                     .of(context)
                                                                     .size
                                                                     .width - 300.0,
-                                                            child: Text(data[index].contentRe, overflow: TextOverflow.ellipsis)
+                                                            child: Text(dataitemtop[index].contentRe, overflow: TextOverflow.ellipsis)
                                                     ),
                                                     Text('More', style: TextStyle(fontWeight: FontWeight.bold,
                                                             color: Color(0xFFF76765),
@@ -326,9 +280,10 @@ ListAxisItems(List<getdetail> data) {
 
 }
 
-Listitems(List<getdetail> data) {
+Listitems(List<getdetail> dataitembottom) {
     return ListView.builder(
-                itemCount: data.length,
+            padding: EdgeInsets.all(0),
+                itemCount: dataitembottom.length,
                 itemBuilder: (BuildContext context, int index){
                      return Column(
                         children: <Widget>[
@@ -350,7 +305,7 @@ Listitems(List<getdetail> data) {
                                                             topLeft: Radius.circular(20.0),
                                                             bottomLeft: Radius.circular(20.0)),
                                                     image: DecorationImage(
-                                                            image: ExactAssetImage(data[index].imageDish),
+                                                            image: ExactAssetImage(dataitembottom[index].imageDish),
                                                             fit: BoxFit.cover)),
                                         ),
                                         Positioned(
@@ -367,12 +322,12 @@ Listitems(List<getdetail> data) {
                                                     child: Column(
                                                         children: <Widget>[
                                                             Text(
-                                                                data[index].nameDishDe,
+                                                                dataitembottom[index].nameDishDe,
                                                                 style: TextStyle(
                                                                         fontWeight: FontWeight.bold, fontSize: 18.0),
                                                             ),
                                                             SizedBox(height: 5.0),
-                                                            Text(data[index].introDish),
+                                                            Text(dataitembottom[index].introDish),
                                                             SizedBox(height: 10.0),
                                                             Container(
                                                                 width: MediaQuery
@@ -391,7 +346,7 @@ Listitems(List<getdetail> data) {
                                                                                     fontWeight: FontWeight.bold)),
                                                                     SizedBox(width: 10.0),
                                                                     Text(
-                                                                        data[index].priceDish,
+                                                                        dataitembottom[index].priceDish,
                                                                         style: TextStyle(
                                                                                 fontWeight: FontWeight.bold,
                                                                                 fontSize: 20.0,

@@ -201,7 +201,7 @@ class Postdata {
 
 class Property{
      LocationRes locationRes;
-     TopReviewDish topReviewDish;
+     List<TopReviewDish> topReviewDish;
     List<Detail> detailDishes;
     Property({
         this.locationRes,
@@ -209,11 +209,13 @@ class Property{
     });
     factory Property.fromJson(Map<String, dynamic> json) {
         var list = json['detailDishes'] as List;
+        var listtop = json['topReviewDish'] as List;
         print(list.runtimeType); //returns List<dynamic>
         List<Detail> imagesList = list.map((i) => Detail.fromJson(i)).toList();
+        List<TopReviewDish> topreviewdish = listtop.map((i) => TopReviewDish.fromJson(i)).toList();
         return Property(
             locationRes: LocationRes.fromJson(json['locationRes']),
-            topReviewDish: TopReviewDish.fromJson(json['topReviewDish']),
+            topReviewDish: topreviewdish,
             detailDishes: imagesList
         );
     }
@@ -236,36 +238,42 @@ class LocationRes{
     }
 }
 class TopReviewDish{
+    int idRe;
     String nameDish;
+    String imageRev;
     int starReview;
     int ReviewNum;
-    NewReview newReview;
+    String nameRe;
+    String contentRe;
     TopReviewDish({
-        this.nameDish,
-        this.starReview,this.ReviewNum,this.newReview
+                      this.idRe,this.nameDish,this.imageRev,
+        this.starReview,this.ReviewNum,this.nameRe,this.contentRe
     });
     factory TopReviewDish.fromJson(Map<String, dynamic> json) {
         return TopReviewDish(
+            idRe: json['idRe'],
             nameDish: json['nameDish'],
+            imageRev: json['imageRev'],
             starReview: json['starReview'],
             ReviewNum: json['ReviewNum'],
-            newReview: NewReview.fromJson(json['newReview'])
-        );
-    }
-}
-class NewReview{
-    String nameRe;
-    String contentRe;
-    NewReview({
-        this.nameRe,this.contentRe
-    });
-    factory NewReview.fromJson(Map<String, dynamic> json) {
-        return NewReview(
             nameRe: json['nameRe'],
             contentRe: json['contentRe'],
         );
     }
 }
+//class NewReview{
+//    String nameRe;
+//    String contentRe;
+//    NewReview({
+//        this.nameRe,this.contentRe
+//    });
+//    factory NewReview.fromJson(Map<String, dynamic> json) {
+//        return NewReview(
+//            nameRe: json['nameRe'],
+//            contentRe: json['contentRe'],
+//        );
+//    }
+//}
 
 class Detail{
     int idDish;
@@ -302,7 +310,9 @@ class getdetail{
     String localTitle;
     String localSnippet;
 
+    int idRe;
     String nameDish;
+    String imageRev;
     int starReview;
     int ReviewNum;
 
@@ -321,7 +331,6 @@ class AppModel extends Model {
     List<getdetail> _datadetail=[];
     List<LocationRes> datalocal;
     List<TopReviewDish> datareview;
-    List<NewReview> datanewre;
     List<Detail> datadetail;
     String cartMsg = "";
     bool success = false;
@@ -331,7 +340,7 @@ class AppModel extends Model {
     final LocalStorage storage = new LocalStorage('app_data');
     Future<List<Postdata>> fetchPhotos() async {
         final response =
-        await http.get('https://api.myjson.com/bins/9rtpm');
+        await http.get('https://api.myjson.com/bins/1e6cls');
         String body = utf8.decode(response.bodyBytes);
         getdata =body;
         createDB();
@@ -361,7 +370,7 @@ class AppModel extends Model {
     createDB() async {
         if( await getdata!=null){
             var dbDir = await getDatabasesPath();
-            var dbPath = join(dbDir, "dbtest15.db");
+            var dbPath = join(dbDir, "dbtest30.db");
             data = parsePhotos(getdata.toString());
             _db = await openDatabase(dbPath, version: 1, onCreate: createTable);
             if(_db !=null){
@@ -389,7 +398,9 @@ class AppModel extends Model {
                     "intLng double,"
                     "localTitle TEXT,"
                     "localSnippet TEXT,"
+                    "idRe INTEGER,"
                     "nameDish TEXT,"
+                    "imageRev TEXT,"
                     "starReview INTEGER,"
                     "ReviewNum INTEGER,"
                     "nameRe TEXT,"
@@ -464,7 +475,9 @@ class AppModel extends Model {
                 d.intLng = dd["intLng"];
                 d.localTitle = dd["localTitle"];
                 d.localSnippet = dd["localSnippet"];
+                d.idRe = dd["idRe"];
                 d.nameDish = dd["nameDish"];
+                d.imageRev = dd["imageRev"];
                 d.starReview = dd["starReview"];
                 d.ReviewNum = dd["ReviewNum"];
                 d.nameRe = dd["nameRe"];
@@ -490,18 +503,20 @@ class AppModel extends Model {
                 d.intLng = data[i].detailRes.locationRes.intLng;
                 d.localTitle = data[i].detailRes.locationRes.localTitle;
                 d.localSnippet = data[i].detailRes.locationRes.localSnippet;
-                d.nameDish = data[i].detailRes.topReviewDish.nameDish;
-                d.starReview = data[i].detailRes.topReviewDish.starReview;
-                d.ReviewNum = data[i].detailRes.topReviewDish.ReviewNum;
-                d.nameRe = data[i].detailRes.topReviewDish.newReview.nameRe;
-                d.contentRe = data[i].detailRes.topReviewDish.newReview.contentRe;
+                d.idRe = data[i].detailRes.topReviewDish[i].idRe;
+                d.nameDish = data[i].detailRes.topReviewDish[i].nameDish;
+                d.imageRev = data[i].detailRes.topReviewDish[i].imageRev;
+                d.starReview = data[i].detailRes.topReviewDish[i].starReview;
+                d.ReviewNum = data[i].detailRes.topReviewDish[i].ReviewNum;
+                d.nameRe = data[i].detailRes.topReviewDish[i].nameRe;
+                d.contentRe = data[i].detailRes.topReviewDish[i].contentRe;
                 d.imageDish = data[i].detailRes.detailDishes[i].imageDish;
                 d.nameDishDe = data[i].detailRes.detailDishes[i].nameDish;
                 d.introDish = data[i].detailRes.detailDishes[i].introDish;
                 d.priceDish = data[i].detailRes.detailDishes[i].priceDish;
                 try{
-                    var qry = 'INSERT INTO detail(id,intLat, intLng, localTitle,localSnippet,nameDish,starReview,ReviewNum,nameRe,contentRe,imageDish,nameDishDe,introDish,priceDish)'
-                            'VALUES(${d.id},"${d.intLat}","${d.intLng}", "${d.localTitle}","${d.localSnippet}","${d.nameDish}"'
+                    var qry = 'INSERT INTO detail(id,intLat, intLng, localTitle,localSnippet,idRe,nameDish,imageRev,starReview,ReviewNum,nameRe,contentRe,imageDish,nameDishDe,introDish,priceDish)'
+                            'VALUES(${d.id},"${d.intLat}","${d.intLng}", "${d.localTitle}","${d.localSnippet}","${d.idRe}","${d.nameDish}","${d.imageRev}"'
                             ',"${d.starReview}","${d.ReviewNum}","${d.nameRe}","${d.contentRe}","${d.imageDish}","${d.nameDishDe}","${d.introDish}"'
                             ',"${d.priceDish}");';
                     var _res = await tx.execute(qry);
