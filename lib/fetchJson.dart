@@ -261,19 +261,6 @@ class TopReviewDish{
         );
     }
 }
-//class NewReview{
-//    String nameRe;
-//    String contentRe;
-//    NewReview({
-//        this.nameRe,this.contentRe
-//    });
-//    factory NewReview.fromJson(Map<String, dynamic> json) {
-//        return NewReview(
-//            nameRe: json['nameRe'],
-//            contentRe: json['contentRe'],
-//        );
-//    }
-//}
 
 class Detail{
     int idDish;
