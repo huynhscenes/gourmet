@@ -306,19 +306,22 @@ class getdetail{
     String nameRe;
     String contentRe;
 
+    int idDish;
     String imageDish;
     String nameDishDe;
     String introDish;
     String priceDish;
+    int amount;
 
 }
+var data;
+List<getpostdata> _data=[];
+List<getdetail> _datadetail=[];
+List<LocationRes> datalocal;
+List<TopReviewDish> datareview;
+List<Detail> datadetail;
+
 class AppModel extends Model {
-    var data;
-    List<getpostdata> _data=[];
-    List<getdetail> _datadetail=[];
-    List<LocationRes> datalocal;
-    List<TopReviewDish> datareview;
-    List<Detail> datadetail;
     String cartMsg = "";
     bool success = false;
     Database _db;
@@ -357,7 +360,7 @@ class AppModel extends Model {
     createDB() async {
         if( await getdata!=null){
             var dbDir = await getDatabasesPath();
-            var dbPath = join(dbDir, "dbtest30.db");
+            var dbPath = join(dbDir, "dbtest32.db");
             data = parsePhotos(getdata.toString());
             _db = await openDatabase(dbPath, version: 1, onCreate: createTable);
             if(_db !=null){
@@ -392,10 +395,12 @@ class AppModel extends Model {
                     "ReviewNum INTEGER,"
                     "nameRe TEXT,"
                     "contentRe TEXT,"
+                    "idDish INTEGER,"
                     "imageDish TEXT,"
                     "nameDishDe TEXT,"
                     "introDish TEXT,"
-                    "priceDish TEXT)";
+                    "priceDish TEXT,"
+                    "amount INTEGER)";
             await this._db.execute(qry);
 
             this.InsertInDetail();
@@ -469,10 +474,12 @@ class AppModel extends Model {
                 d.ReviewNum = dd["ReviewNum"];
                 d.nameRe = dd["nameRe"];
                 d.contentRe = dd["contentRe"];
+                d.idDish = dd["idDish"];
                 d.imageDish = dd["imageDish"];
                 d.nameDishDe = dd["nameDishDe"];
                 d.introDish = dd["introDish"];
                 d.priceDish = dd["priceDish"];
+                d.amount = dd["amount"];
                 _datadetail.add(d);
             }).toList();
             notifyListeners();
@@ -497,15 +504,17 @@ class AppModel extends Model {
                 d.ReviewNum = data[i].detailRes.topReviewDish[i].ReviewNum;
                 d.nameRe = data[i].detailRes.topReviewDish[i].nameRe;
                 d.contentRe = data[i].detailRes.topReviewDish[i].contentRe;
+                d.idDish = data[i].detailRes.detailDishes[i].idDish;
                 d.imageDish = data[i].detailRes.detailDishes[i].imageDish;
                 d.nameDishDe = data[i].detailRes.detailDishes[i].nameDish;
                 d.introDish = data[i].detailRes.detailDishes[i].introDish;
                 d.priceDish = data[i].detailRes.detailDishes[i].priceDish;
+                d.amount = data[i].detailRes.detailDishes[i].amount;
                 try{
-                    var qry = 'INSERT INTO detail(id,intLat, intLng, localTitle,localSnippet,idRe,nameDish,imageRev,starReview,ReviewNum,nameRe,contentRe,imageDish,nameDishDe,introDish,priceDish)'
+                    var qry = 'INSERT INTO detail(id,intLat, intLng, localTitle,localSnippet,idRe,nameDish,imageRev,starReview,ReviewNum,nameRe,contentRe,idDish,imageDish,nameDishDe,introDish,priceDish,amount)'
                             'VALUES(${d.id},"${d.intLat}","${d.intLng}", "${d.localTitle}","${d.localSnippet}","${d.idRe}","${d.nameDish}","${d.imageRev}"'
-                            ',"${d.starReview}","${d.ReviewNum}","${d.nameRe}","${d.contentRe}","${d.imageDish}","${d.nameDishDe}","${d.introDish}"'
-                            ',"${d.priceDish}");';
+                            ',"${d.starReview}","${d.ReviewNum}","${d.nameRe}","${d.contentRe}","${d.idDish}","${d.imageDish}","${d.nameDishDe}","${d.introDish}"'
+                            ',"${d.priceDish}","${d.amount}");';
                     var _res = await tx.execute(qry);
                 }catch(e){
                     print('this is insert '+ e.toString());
@@ -518,4 +527,14 @@ class AppModel extends Model {
 
     // Item List
     List<getdetail> get itemDetail => _datadetail;
+
+    void addCart(id) async{
+        this._db.transaction((tx)async{
+            for(var i=0; i<data.length; i++){
+               if(id == data[i].detailRes.detailDishes[i].idDish){
+                   print('this is idddddd '+ id.toString());
+               }
+            }
+        });
+    }
 }

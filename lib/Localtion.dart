@@ -5,19 +5,15 @@ import 'package:goutmer_flutter/fetchJson.dart';
 import 'package:goutmer_flutter/my_bloc.dart';
 import "package:scoped_model/scoped_model.dart";
 int numcart =0;
-
+var sendvaluelist = [];
 class LocationPage extends StatefulWidget {
+    Detail detail;
+    LocationPage({this.detail});
     @override
     State<StatefulWidget> createState() {
         // TODO: implement createState
         return LocationState();
     }
-}
-class Cartlist {
-    final int idDishcart;
-    final int amountcart;
-
-    Cartlist({this.idDishcart, this.amountcart});
 }
 
 class LocationState extends State<LocationPage> {
@@ -79,13 +75,9 @@ class LocationState extends State<LocationPage> {
                                                                     },
                                                                 ),
                                                             ),
-
                                 ),
                             ]
                     )
-
-
-
             ),
         );
     }
@@ -357,25 +349,34 @@ class LocationState extends State<LocationPage> {
                                                             Row(
                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                 children: <Widget>[
-                                                                    Container(
-                                                                        decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.circular(10.0),
-                                                                                color: Colors.green),
-                                                                        width: 100.0,
-                                                                        height: 40.0,
-                                                                        child: FlatButton(
-                                                                            onPressed: (){
-                                                                                bloc.incremnent();
+                                                                    ScopedModel<AppModel>(
+                                                                        model: AppModel(),
+                                                                        child:  ScopedModelDescendant<AppModel>(
+                                                                            builder: (context,child,model){
+                                                                                return Container(
+                                                                                    decoration: BoxDecoration(
+                                                                                            borderRadius: BorderRadius.circular(10.0),
+                                                                                            color: Colors.green),
+                                                                                    width: 100.0,
+                                                                                    height: 40.0,
+                                                                                    child: FlatButton(
+                                                                                        onPressed: (){
+                                                                                            print(dataitembottom[index].idRe);
+                                                                                            model.addCart(dataitembottom[index].idRe);
+                                                                                            bloc.incremnent();
+                                                                                        },
+                                                                                        child: Row(
+                                                                                            children: <Widget>[
+                                                                                                Icon(
+                                                                                                    Icons.shopping_cart, color: Colors.white,),
+                                                                                                SizedBox(width: 2.0,),
+                                                                                                Text('  Add',
+                                                                                                    style: TextStyle(color: Colors.white),)
+                                                                                            ],
+                                                                                        ),
+                                                                                    ),
+                                                                                );
                                                                             },
-                                                                            child: Row(
-                                                                                children: <Widget>[
-                                                                                    Icon(
-                                                                                        Icons.shopping_cart, color: Colors.white,),
-                                                                                    SizedBox(width: 2.0,),
-                                                                                    Text('  Add',
-                                                                                        style: TextStyle(color: Colors.white),)
-                                                                                ],
-                                                                            ),
                                                                         ),
                                                                     ),
                                                                     Container(
