@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:goutmer_flutter/fetchJson.dart';
 
 class MyBloc {
     int counter =0;

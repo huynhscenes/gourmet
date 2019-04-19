@@ -527,13 +527,20 @@ class AppModel extends Model {
 
     // Item List
     List<getdetail> get itemDetail => _datadetail;
-
+    var countamount = 0;
     void addCart(id) async{
+        countamount= countamount + 1;
+        print(countamount);
         this._db.transaction((tx)async{
             for(var i=0; i<data.length; i++){
-               if(id == data[i].detailRes.detailDishes[i].idDish){
-                   print('this is idddddd '+ id.toString());
-               }
+                try {
+                    var qry = 'UPDATE detail SET amount = ${countamount} WHERE idDish = ${id}';
+                    var _res = await tx.execute(qry);
+                }catch(e){
+                    print('this is insert '+ e.toString());
+
+                }
+                _datadetail.add(d);
             }
         });
     }

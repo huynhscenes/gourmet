@@ -361,9 +361,9 @@ class LocationState extends State<LocationPage> {
                                                                                     height: 40.0,
                                                                                     child: FlatButton(
                                                                                         onPressed: (){
-                                                                                            print(dataitembottom[index].idRe);
                                                                                             model.addCart(dataitembottom[index].idRe);
                                                                                             bloc.incremnent();
+                                                                                            print(dataitembottom[index].amount);
                                                                                         },
                                                                                         child: Row(
                                                                                             children: <Widget>[
